@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     //Declare variables
@@ -62,12 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null && bundle.isEmpty()){
+            String[] list = bundle.getStringArray("USER_INFO");
 
-        editor.putString("FIRST_NAME",bundle.getString("FIRST_NAME", "FIRST NAME"));
-        editor.putString("LAST_NAME",bundle.getString("LAST_NAME", "LAST NAME"));
-        editor.putString("BIRTH_DATE", bundle.getString("BIRTH_DATE", "BIRTH DATE"));
-        editor.putString("EMAIL",bundle.getString("EMAIL", "EMAIL ADDRESS"));
-        editor.putString("PHONE", bundle.getString("PHONE", "PHONE NUMBER"));
+        editor.putString("FIRST_NAME",list[0]);
+        editor.putString("LAST_NAME",list[1]);
+        editor.putString("BIRTH_DATE", list[2]);
+        editor.putString("EMAIL",list[3]);
+        editor.putString("PHONE", list[4]);
         editor.apply();
     }else{
             switchActivity();

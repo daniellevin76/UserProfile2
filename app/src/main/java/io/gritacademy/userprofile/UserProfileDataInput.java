@@ -2,6 +2,7 @@ package io.gritacademy.userprofile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.service.autofill.UserData;
@@ -37,12 +38,7 @@ public class UserProfileDataInput extends AppCompatActivity {
 
         insertBtn.setOnClickListener(v -> {
 
-
-
-
-
-         switchActivities(addValuesToBundle(userInputReadIn()));
-
+           switchActivities(userInputReadIn());
 
         });
     }
@@ -60,50 +56,49 @@ public class UserProfileDataInput extends AppCompatActivity {
 
         return userInputsArray;
     }
-    public ArrayList<String> addValuesToBundle(ArrayList<String> inputArr) {
 
-        ArrayList<String> bundleArrayList = new ArrayList<String>();
 
+    public boolean checkArrayEntries(ArrayList<String> inputArr){
+
+        boolean isFull = false;
+        int count = inputArr.size();
         for(String arr: inputArr){
-            if(arr.length() != 0){
-                bundleArrayList.add(arr);
-            } else{
+            if (arr.length() != 0){
+                count --;
+
+            }
+            if(count == 0){
+            isFull = true;}
+        }
+          return isFull;
+        }
 
 
-                Toast toast = Toast.makeText(this, "No empty fields", Toast.LENGTH_SHORT);
-                toast.show();
-                /*
+    private void switchActivities(ArrayList<String> inputArr) {
+
+            if(checkArrayEntries(inputArr)){
                 //create a Bundle object
                 Bundle bundle = new Bundle();
 
                 //Adding key value pairs to this bundle
                 bundle.putStringArrayList("USER_INFO",  inputArr);
-                 switchActivities(bundle);
 
-                 */
+                //create and initialize an intent
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+            else{
+
+                Context context = getApplicationContext();
+                CharSequence text = "No entries should be empty";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
 
             }
         }
 
 
-        return bundleArrayList;
-    }
-
-
-
-    private void switchActivities(ArrayList<String> inputArr) {
-
-        //create a Bundle object
-        Bundle bundle = new Bundle();
-
-        //Adding key value pairs to this bundle
-        bundle.putStringArrayList("USER_INFO",  inputArr);
-
-        //create and initialize an intent
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
-    }
-}
